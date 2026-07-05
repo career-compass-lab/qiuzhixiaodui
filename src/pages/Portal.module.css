@@ -1,0 +1,176 @@
+.portal {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #e8f4fd 0%, #f5f7fa 30%, #fff 60%);
+}
+
+.content {
+  flex: 1;
+  padding: 24px 20px;
+}
+
+/* 品牌 */
+.brand {
+  text-align: center;
+  font-size: 14px;
+  color: #1677ff;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 20px 0;
+}
+.heroIcon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 6px;
+}
+.count {
+  font-size: 13px;
+  color: #999;
+}
+
+/* 卖点 */
+.features {
+  display: flex;
+  justify-content: space-around;
+  padding: 24px 0;
+  gap: 8px;
+}
+.featureItem {
+  flex: 1;
+  text-align: center;
+  padding: 16px 8px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.featureIcon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+.featureItem h3 {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+.featureItem p {
+  font-size: 12px;
+  color: #999;
+}
+
+/* 表单 */
+.startSection {
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  margin: 8px 0 24px;
+}
+.submitBtn {
+  margin-top: 8px;
+  border-radius: 10px;
+  height: 48px;
+  font-size: 17px;
+  font-weight: 600;
+}
+.agreement {
+  text-align: center;
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 12px;
+}
+
+/* 评价 */
+.testimonials {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 0 24px;
+}
+.testimonialItem {
+  text-align: center;
+  padding: 12px;
+  background: #f7f8fa;
+  border-radius: 10px;
+}
+.testimonialText {
+  font-size: 14px;
+  color: #555;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+.testimonialName {
+  font-size: 12px;
+  color: #999;
+}
+
+/* 关注区 */
+.follow {
+  text-align: center;
+  padding: 20px 0;
+}
+.follow h3 {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 16px;
+}
+.qrPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.qrImage {
+  width: 180px;
+  height: 180px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  background: #fff;
+  padding: 8px;
+  display: block;
+}
+.qrBox {
+  width: 180px;
+  height: 220px;
+  border: 2px dashed #ddd;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #999;
+  font-size: 13px;
+}
+.qrBox span {
+  font-size: 36px;
+}
+.qrHint {
+  font-size: 11px;
+  color: #bbb;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 12px;
+  color: #bbb;
+}

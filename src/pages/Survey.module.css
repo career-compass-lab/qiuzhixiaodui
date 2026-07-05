@@ -1,0 +1,120 @@
+.survey {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.empty {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+/* 头部进度 */
+.header {
+  padding: 16px 20px 0;
+}
+.progressBar {
+  margin-bottom: 8px;
+}
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #999;
+}
+.dimLabel {
+  color: #1677ff;
+  font-weight: 500;
+}
+
+/* 题目区 */
+.questionArea {
+  flex: 1;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.questionNum {
+  font-size: 14px;
+  color: #1677ff;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.questionText {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a2e;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+/* 选项 */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.option {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.option:active {
+  background: #f0f5ff;
+}
+.optionSelected {
+  border-color: #1677ff;
+  background: #f0f5ff;
+}
+.optionLabel {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f5f7fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #666;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+.optionSelected .optionLabel {
+  background: #1677ff;
+  color: #fff;
+}
+.optionText {
+  flex: 1;
+  font-size: 15px;
+  color: #333;
+  line-height: 1.4;
+}
+.check {
+  color: #1677ff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* 底部按钮 */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 20px 32px;
+  border-top: 1px solid #f0f0f0;
+}
+.nextBtn {
+  min-width: 140px;
+  border-radius: 10px;
+  height: 44px;
+  font-size: 16px;
+}
