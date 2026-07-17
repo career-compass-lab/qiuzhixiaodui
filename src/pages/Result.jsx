@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Button, Input, Toast } from 'antd-mobile'
+import { Button } from 'antd-mobile'
 import { dimensions } from '../data/questions'
 import { generateReport } from '../data/reportGenerator'
 import styles from './Result.module.css'
@@ -203,7 +203,6 @@ function drawRadar(canvas, scores) {
 
 export default function Result() {
   const [scores, setScores] = useState([])
-  const [unlocked, setUnlocked] = useState(false)
   const [loading, setLoading] = useState(false)
   const [report, setReport] = useState('')
   const canvasRef = useRef(null)
@@ -217,18 +216,11 @@ export default function Result() {
       scoresRef.current = data
       setTimeout(() => drawRadar(canvasRef.current, data), 100)
     }
-    // 检查是否已解锁过
-    if (localStorage.getItem('report_unlocked') === 'true') {
-      setUnlocked(true)
-    }
   }, [])
 
   // 找出最高分和最低分
   const top3 = [...scores].sort((a, b) => b.score - a.score).slice(0, 3)
   const bottom3 = [...scores].sort((a, b) => a.score - b.score).slice(0, 3)
-
-  const [codeInput, setCodeInput] = useState('')
-  const [codeError, setCodeError] = useState(false)
 
   // 页面加载后自动生成报告（纯前端，无需后端）
   useEffect(() => {
@@ -244,17 +236,6 @@ export default function Result() {
     setReport(generateReport(curScores, ''))
     setLoading(false)
   }, [])
-
-  const verifyCode = useCallback(() => {
-    if (codeInput === '6745') {
-      localStorage.setItem('report_unlocked', 'true')
-      setCodeError(false)
-      setUnlocked(true)
-    } else {
-      setCodeError(true)
-      Toast.show({ content: '验证码错误，请添加微信获取' })
-    }
-  }, [codeInput])
 
   return (
     <div className={styles.result}>
@@ -303,65 +284,18 @@ export default function Result() {
 
       {/* 报告区域 */}
       <div className={styles.reportSection}>
-        {/* 未解锁：显示引导卡片 + 模糊报告 */}
-        {!unlocked && report && (
-          <>
-            <div className={styles.unlockCard}>
-              <div className={styles.unlockIcon}>🔐</div>
-              <h3>解锁完整深度报告</h3>
-              <p className={styles.unlockDesc}>
-                扫码添加求职小队企业微信，获取验证码
-              </p>
-              <div className={styles.qrInline}>
-                <img className={styles.qrImage} src="/qrcode.jpg" alt="企业微信二维码" />
-                <p className={styles.qrHint}>扫码添加好友 → 发送暗号"测评报告"</p>
-              </div>
-              <div className={styles.codeInline}>
-                <Input
-                  placeholder="请输入验证码"
-                  value={codeInput}
-                  onChange={v => { setCodeInput(v); setCodeError(false) }}
-                  maxLength={6}
-                  className={styles.codeInputInline}
-                  style={codeError ? { borderColor: '#ff4d4f' } : {}}
-                />
-                <Button
-                  block
-                  color="primary"
-                  size="large"
-                  onClick={verifyCode}
-                  loading={loading}
-                  className={styles.unlockBtn}
-                >
-                  验证解锁
-                </Button>
-              </div>
-            </div>
-            <div className={styles.blurredReport}>
-              <h3>📄 测评报告</h3>
-              <div className={styles.reportContent}>
-                {parseReport(report)}
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* 已解锁：直接显示完整清晰报告 */}
-        {unlocked && report && (
+        {report ? (
           <div className={styles.fullReport}>
             <h3>📄 测评报告</h3>
             <div className={styles.reportContent}>
               {parseReport(report)}
             </div>
           </div>
-        )}
-
-        {/* loading 状态 */}
-        {!report && loading && (
+        ) : loading ? (
           <div className={styles.fullReport}>
             <p style={{textAlign:'center',color:'#999',padding:40}}>正在生成报告...</p>
           </div>
-        )}
+        ) : null}
       </div>
 
       {/* 重新测评 */}
@@ -372,7 +306,6 @@ export default function Result() {
           onClick={() => {
             localStorage.removeItem('survey_results')
             localStorage.removeItem('survey_answers')
-            localStorage.removeItem('report_unlocked')
             window.location.href = '/portal'
           }}
         >
