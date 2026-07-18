@@ -124,11 +124,22 @@ const tdStyle = {
 function drawRadar(canvas, scores) {
   if (!canvas) return
   const ctx = canvas.getContext('2d')
-  const w = canvas.width
-  const h = canvas.height
+  const dpr = window.devicePixelRatio || 1
+
+  // 逻辑尺寸（CSS 显示尺寸）
+  const displaySize = 360
+  canvas.width = displaySize * dpr
+  canvas.height = displaySize * dpr
+  canvas.style.width = displaySize + 'px'
+  canvas.style.height = displaySize + 'px'
+
+  const w = displaySize
+  const h = displaySize
+  ctx.scale(dpr, dpr)
+
   const cx = w / 2
   const cy = h / 2
-  const r = Math.min(cx, cy) - 40
+  const r = Math.min(cx, cy) - 48  // 增大边距给标签留空间
   const n = scores.length
   const angleStep = (Math.PI * 2) / n
 
@@ -159,7 +170,7 @@ function drawRadar(canvas, scores) {
     ctx.stroke()
   }
 
-  // 画数据
+  // 画数据区域
   ctx.beginPath()
   for (let i = 0; i < n; i++) {
     const score = scores[i].score / 100
@@ -176,7 +187,7 @@ function drawRadar(canvas, scores) {
   ctx.lineWidth = 2
   ctx.stroke()
 
-  // 画点
+  // 画数据点
   for (let i = 0; i < n; i++) {
     const score = scores[i].score / 100
     const angle = angleStep * i - Math.PI / 2
@@ -188,16 +199,43 @@ function drawRadar(canvas, scores) {
     ctx.fill()
   }
 
-  // 画标签
+  // 画标签 — 智能定位防遮挡
   ctx.fillStyle = '#333'
-  ctx.font = '12px -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif'
-  ctx.textAlign = 'center'
+  ctx.font = '13px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif'
+  const labelR = r + 30
+
   for (let i = 0; i < n; i++) {
     const angle = angleStep * i - Math.PI / 2
-    const labelR = r + 22
-    const x = cx + labelR * Math.cos(angle)
-    const y = cy + labelR * Math.sin(angle) + 4
-    ctx.fillText(scores[i].label, x, y)
+    const rawX = cx + labelR * Math.cos(angle)
+    const rawY = cy + labelR * Math.sin(angle)
+
+    // 根据角度智能调整 textAlign 和偏移
+    // 右半区：左对齐；左半区：右对齐；上下：居中
+    const normalizedAngle = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2)
+
+    if (normalizedAngle > Math.PI * 0.15 && normalizedAngle < Math.PI * 0.85) {
+      // 右侧区域 → 标签在点的右边，文字左对齐
+      ctx.textAlign = 'left'
+      ctx.textBaseline = 'middle'
+      ctx.fillText(scores[i].label, rawX + 6, rawY)
+    } else if (normalizedAngle > Math.PI * 1.15 && normalizedAngle < Math.PI * 1.85) {
+      // 左侧区域 → 标签在点的左边，文字右对齐
+      ctx.textAlign = 'right'
+      ctx.textBaseline = 'middle'
+      ctx.fillText(scores[i].label, rawX - 6, rawY)
+    } else {
+      // 顶部/底部区域 → 居中
+      ctx.textAlign = 'center'
+      if (normalizedAngle <= Math.PI * 0.15 || normalizedAngle >= Math.PI * 1.85) {
+        // 顶部
+        ctx.textBaseline = 'top'
+        ctx.fillText(scores[i].label, rawX, rawY + 6)
+      } else {
+        // 底部
+        ctx.textBaseline = 'bottom'
+        ctx.fillText(scores[i].label, rawX, rawY - 6)
+      }
+    }
   }
 }
 
@@ -249,8 +287,6 @@ export default function Result() {
       <div className={styles.radarWrap}>
         <canvas
           ref={canvasRef}
-          width={340}
-          height={340}
           className={styles.radar}
         />
       </div>
