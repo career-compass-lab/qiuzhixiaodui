@@ -7,8 +7,7 @@
  *  2) 霍兰德 RIASEC —— 职业匹配：将能力结构翻译成"你适合怎么工作"，再推荐具体岗位。
  *
  * 文风：专业顾问风（像一位懂你的职业顾问在说话，不贴标签、不吓人）。
- * 已剔除晦涩"能力代码"，核心优势直说；维度展开用「行为观察 → 价值 → 增值用法」；
- * 低维只讲"绕开式管理"，不要求补齐。
+ * 已剔除晦涩"能力代码"，核心优势直说；维度展开只讲「它的价值」。
  *
  * 报告结构（封面 + 4 章，约 4000 字）：
  *   封面
@@ -93,17 +92,6 @@ function generateCover(phone) {
 // 第一章：能力全景与职业人格
 // ================================================================
 function generateChapter1Overview(scores, top3, bottom3, avgScore, totalScore) {
-  const topKey = top3[0].key
-  const secondKey = top3[1]?.key || topKey
-  const portrait = buildPortraitText(topKey, secondKey, nm(top3[0]), nm(top3[1] || top3[0]))
-
-  // 一致性分析
-  const variance = scores.reduce((sum, s) => sum + Math.pow(s.score - avgScore, 2), 0) / scores.length
-  const stdDev = Math.sqrt(variance)
-  const consistencyNote = stdDev > 12
-    ? '这次答案前后一致，七种力量也拉开了足够差异，可以先用这张画像对照近期行为。'
-    : '你的七维能力整体比较均衡，画像的轮廓不会特别鲜明——这本身就是一个值得关注的特点。可以先通读全文，找到最让你觉得"对，这就是我"的那几个段落。'
-
   // 综合评级
   const level = avgScore >= 85 ? '卓越' : avgScore >= 70 ? '优秀' : avgScore >= 55 ? '良好' : '成长中'
   const levelDesc = {
@@ -118,16 +106,6 @@ function generateChapter1Overview(scores, top3, bottom3, avgScore, totalScore) {
   const bottomNames = bottom3.map(s => nm(s)).join('、')
 
   return `## 第一章：能力全景与职业人格
-
-### 先认领这张画像
-
-${portrait}
-
-#### 这次结果可以先信到什么程度
-
-${consistencyNote}它描述的是当前更常出现的入口，不是永远不变的身份。
-
----
 
 ### 综合评级：${level}（均分 ${avgScore} 分）
 
@@ -155,9 +133,7 @@ ${scores.map(s => {
 
 基于七维能力测评的综合分析，你展现出 **"${getPersonaType(top3)}"** 的职业人格特质。
 
-${getPersonaDesc(top3)}
-
-> 💡 接下来的章节会逐一展开：先看核心优势和工作回路，再把七个维度拆开细读，最后落到具体的职业和岗位推荐。整份报告约需 15 分钟读完。`
+${getPersonaDesc(top3)}`
 }
 
 function buildPortraitText(topKey, secondKey, topLabel, secondLabel) {
@@ -391,7 +367,7 @@ function generateChapter3DimensionDetail(scores) {
   const parts = scores.map(s => generateSingleDimension(s))
   return `## 第三章：七维能力解读
 
-> 七种力量没有高下之分，得分高不代表更强，得分低也不等于不会。下面按你的得分从高到低，逐一拆开每个维度：它平时怎么表现（行为观察）、为什么值钱（价值）、以及你该怎么用——高维讲"增值用法"，低维讲"绕开式管理"（不要求你补齐，只教你如何不被它拖垮）。
+> 七种力量没有高下之分，得分高不代表更强，得分低也不等于不会。下面按你的得分从高到低，逐一展开每个维度的核心价值。
 
 ${parts.join('\n\n')}`
 }
@@ -400,38 +376,14 @@ function generateSingleDimension(s) {
   const { key, score } = s
   const label = nm(s)
   const level = score >= 85 ? '卓越' : score >= 70 ? '优秀' : score >= 55 ? '良好' : score >= 40 ? '发展中' : '待提升'
-  const isLow = score < 55
   const bar = '█'.repeat(Math.round(score / 10)) + '░'.repeat(10 - Math.round(score / 10))
-  const observation = getBehaviorObservation(key, isLow)
-
-  if (isLow) {
-    const manage = getBypassManage(key)
-    return `### ${label}：${bar} ${score} 分 · ${level}
-
-**行为观察**
-
-${observation}
-
-**绕开式管理**
-
-${manage}`
-  }
 
   const value = getDimensionValue(key, level)
-  const usage = getBoostUsage(key, level)
   return `### ${label}：${bar} ${score} 分 · ${level}
-
-**行为观察**
-
-${observation}
 
 **它的价值**
 
-${value}
-
-**增值用法**
-
-${usage}`
+${value}`
 }
 
 function getBehaviorObservation(key, isLow) {
