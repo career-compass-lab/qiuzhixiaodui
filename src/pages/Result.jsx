@@ -18,6 +18,24 @@ function parseReport(text) {
     const line = lines[i]
     const trimmed = line.trimStart()
 
+    // 自定义进度条行：@@ROW:维度名:分数@@
+    if (trimmed.startsWith('@@ROW:')) {
+      const inner = trimmed.slice(6, -2) // 去掉 @@ROW: 前缀和 @@ 后缀
+      const sepIdx = inner.lastIndexOf(':')
+      const name = inner.slice(0, sepIdx)
+      const score = parseInt(inner.slice(sepIdx + 1), 10) || 0
+      elements.push(
+        <div key={i} className={styles.barRow}>
+          <span className={styles.barLabel}>{name}</span>
+          <span className={styles.barTrack}>
+            <span className={styles.barFill} style={{ width: `${score}%` }} />
+          </span>
+          <span className={styles.barScore}>{score}</span>
+        </div>
+      )
+      i++; continue
+    }
+
     // 表格检测：当前行 | 下一行是 |---| 分隔
     if (trimmed.startsWith('|') && lines[i + 1] && /^\s*\|\s*[-:]+\s*(\|\s*[-:]+\s*)*\|?\s*$/.test(lines[i + 1])) {
       const headerCells = splitTableRow(trimmed)
@@ -126,8 +144,8 @@ function drawRadar(canvas, scores) {
   const ctx = canvas.getContext('2d')
   const dpr = window.devicePixelRatio || 1
 
-  // 逻辑尺寸（CSS 显示尺寸）
-  const displaySize = 360
+  // 逻辑尺寸（CSS 显示尺寸）—— 较上版缩小 15%，避免标签在屏幕边缘被裁切
+  const displaySize = 306
   canvas.width = displaySize * dpr
   canvas.height = displaySize * dpr
   canvas.style.width = displaySize + 'px'
@@ -139,7 +157,7 @@ function drawRadar(canvas, scores) {
 
   const cx = w / 2
   const cy = h / 2
-  const r = Math.min(cx, cy) - 48  // 增大边距给标签留空间
+  const r = Math.min(cx, cy) - 50  // 边距留足，标签贴近外圈但不溢出画布
   const n = scores.length
   const angleStep = (Math.PI * 2) / n
 
@@ -199,10 +217,10 @@ function drawRadar(canvas, scores) {
     ctx.fill()
   }
 
-  // 画标签 — 智能定位防遮挡
+  // 画标签 — 智能定位防遮挡（标签贴在顶点内侧，确保不溢出画布）
   ctx.fillStyle = '#333'
-  ctx.font = '13px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif'
-  const labelR = r + 30
+  ctx.font = '12px -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif'
+  const labelR = r - 2
 
   for (let i = 0; i < n; i++) {
     const angle = angleStep * i - Math.PI / 2
@@ -217,23 +235,23 @@ function drawRadar(canvas, scores) {
       // 右侧区域 → 标签在点的右边，文字左对齐
       ctx.textAlign = 'left'
       ctx.textBaseline = 'middle'
-      ctx.fillText(scores[i].label, rawX + 6, rawY)
+      ctx.fillText(scores[i].label, rawX, rawY)
     } else if (normalizedAngle > Math.PI * 1.15 && normalizedAngle < Math.PI * 1.85) {
       // 左侧区域 → 标签在点的左边，文字右对齐
       ctx.textAlign = 'right'
       ctx.textBaseline = 'middle'
-      ctx.fillText(scores[i].label, rawX - 6, rawY)
+      ctx.fillText(scores[i].label, rawX, rawY)
     } else {
       // 顶部/底部区域 → 居中
       ctx.textAlign = 'center'
       if (normalizedAngle <= Math.PI * 0.15 || normalizedAngle >= Math.PI * 1.85) {
         // 顶部
-        ctx.textBaseline = 'top'
-        ctx.fillText(scores[i].label, rawX, rawY + 6)
+        ctx.textBaseline = 'bottom'
+        ctx.fillText(scores[i].label, rawX, rawY - 2)
       } else {
         // 底部
-        ctx.textBaseline = 'bottom'
-        ctx.fillText(scores[i].label, rawX, rawY - 6)
+        ctx.textBaseline = 'top'
+        ctx.fillText(scores[i].label, rawX, rawY + 2)
       }
     }
   }
