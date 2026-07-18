@@ -56,7 +56,7 @@ const testimonials = [
   },
   {
     text: '"测评答题流程简洁易懂，全程五分钟就能完成，生成的分析报告维度全面细致，把性格优势、适配岗位都梳理得清清楚楚，实用性很强。"',
-    name: '小王',
+    name: '王同学',
   },
   {
     text: '"身边好友强烈推荐来做职业测评，对比自己盲目摸索，测评给出的规划客观专业，找发展方向靠谱省心。"',
@@ -132,7 +132,7 @@ export default function Portal() {
           <h3>想更了解你的职业规划，添加小助手</h3>
           <div className={styles.qrPlaceholder}>
             <img className={styles.qrImage} src={qrcodeImg} alt="小助手二维码" />
-            <p className={styles.qrHint}>扫码添加求职小队小助手</p>
+            <p className={styles.qrHint}>长摁图片添加求职小队小助手</p>
           </div>
         </div>
       </div>
