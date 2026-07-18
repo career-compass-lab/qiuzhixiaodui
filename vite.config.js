@@ -3,10 +3,10 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  // GitHub Pages 部署配置
-  base: '/qiuzhixiaodui/',
+  // Netlify 部署，base 用根路径
+  base: '/',
   build: {
-    outDir: 'docs',
+    outDir: 'dist',
   },
   server: {
     port: 3000,
