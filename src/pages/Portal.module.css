@@ -27,8 +27,8 @@
   margin-bottom: 16px;
 }
 .brandLogo {
-  /* 比 28px 标题略小，约 22-24px 等高 */
-  height: 38px;
+  /* 比 28px 标题略大，视觉更醒目 */
+  height: 56px;
   width: auto;
   display: inline-block;
 }
