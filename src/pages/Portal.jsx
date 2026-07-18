@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react'
+import logoImg from '../assets/logo.png'
+import qrcodeImg from '../assets/qrcode.jpg'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'antd-mobile'
 import styles from './Portal.module.css'
@@ -76,7 +77,7 @@ export default function Portal() {
       <div className={styles.content}>
         {/* 品牌区：LOGO 图片（替代原"求职小队"文字） */}
         <div className={styles.brand}>
-          <img className={styles.brandLogo} src="/logo.png" alt="求职小队" />
+          <img className={styles.brandLogo} src={logoImg} alt="求职小队" />
         </div>
 
         {/* 主标题区：背景从深蓝渐变到白 */}
@@ -129,7 +130,7 @@ export default function Portal() {
         <div className={styles.follow}>
           <h3>想更了解你的职业规划，添加小助手</h3>
           <div className={styles.qrPlaceholder}>
-            <img className={styles.qrImage} src="/qrcode.jpg" alt="小助手二维码" />
+            <img className={styles.qrImage} src={qrcodeImg} alt="小助手二维码" />
             <p className={styles.qrHint}>扫码添加求职小队小助手</p>
           </div>
         </div>
