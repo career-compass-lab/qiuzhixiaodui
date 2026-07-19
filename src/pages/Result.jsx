@@ -358,7 +358,7 @@ export default function Result() {
         <h3>想更了解你的职业规划，添加小助手</h3>
         <div className={styles.reportQrPlaceholder}>
           <img className={styles.reportQrImage} src={qrcodeImg} alt="小助手二维码" />
-          <p className={styles.reportQrHint}>长摁图片添加求职小队小助手</p>
+          <p className={styles.reportQrHint}>长按图片添加求职小队小助手</p>
         </div>
       </div>
 

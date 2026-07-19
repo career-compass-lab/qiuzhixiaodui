@@ -66,7 +66,7 @@ function generateReport(scores, phone) {
     generateReportFooter(phone),
   ]
 
-  return sections.join('\n\n---\n\n').replace(/\\n/g, '\n')
+  return sections.join('\n\n').replace(/\\n/g, '\n')
 }
 
 // ============ 封面（仅标题）============
@@ -81,9 +81,7 @@ function generateReportFooter(phone) {
 
   return `**求职小队 · 职业规划研究中心**
 
-报告生成日期：${date}
-
-测评用户：${masked}`
+报告生成日期：${date}`
 }
 
 // ================================================================
@@ -366,8 +364,6 @@ function generateSingleDimension(s) {
   const value = getDimensionValue(key, level)
   return `### ${label}：${score} 分 · ${level}
 
-**它的价值**
-
 ${value}`
 }
 
@@ -553,8 +549,6 @@ function generateChapter4CareerGuide(scores, top3, bottom3) {
 ### 🧭 适配工作类型
 
 ${workStyleAnalysis}
-
----
 
 ### 💡 适合你的岗位推荐
 
@@ -945,7 +939,7 @@ function generateJobRecommendations(dimMap, sorted, top3) {
   > 发展路径：${job.path}`
       }).join('\n')
 
-      secondarySection = `\n---\n\n### 🔄 备选方向（基于你的第二优势：${DIMENSION_NAMES[secondKey]}）
+      secondarySection = `\n\n### 🔄 备选方向（基于你的第二优势：${DIMENSION_NAMES[secondKey]}）
 
 如果你的职业兴趣不在上面的主推方向，以下岗位同样值得考虑：
 
