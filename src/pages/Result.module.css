@@ -235,7 +235,7 @@
 .reportContent h3 {
   font-size: 16px;
   color: #1677ff;
-  margin: 16px 0 8px;
+  margin: 16px 0 0;
 }
 .reportContent p {
   margin-bottom: 8px;
