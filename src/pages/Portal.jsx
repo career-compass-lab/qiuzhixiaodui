@@ -86,7 +86,7 @@ export default function Portal() {
           <div className={styles.heroIcon}><CompassIcon /></div>
           <h1 className={styles.title}>职业潜力挖掘与优势测评</h1>
           <p className={styles.subtitle}>5分钟了解你的职业发展潜力</p>
-          <p className={styles.count}>已有 23,000 人完成测评</p>
+          <p className={styles.count}>已有 8,000 人完成测评</p>
         </div>
 
         {/* 卖点区 */}
