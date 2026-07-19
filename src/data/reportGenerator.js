@@ -363,7 +363,6 @@ function generateSingleDimension(s) {
 
   const value = getDimensionValue(key, level)
   return `### ${label}：${score} 分 · ${level}
-
 ${value}`
 }
 
