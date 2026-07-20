@@ -103,7 +103,7 @@ function generateChapter1Overview(scores, top3, bottom3, avgScore, totalScore) {
 
   return `## 第一章：能力全景与职业人格
 
-### 综合评级：${level}（均分 ${avgScore} 分）
+### 能力概况
 
 ${levelDesc[level]}
 
@@ -111,8 +111,6 @@ ${levelDesc[level]}
 
 | 指标 | 数值 |
 |---|---|
-| 综合均分 | **${avgScore}** / 100 |
-| 总分 | **${totalScore}** / 700 |
 | 最强维度 | **${nm(top3[0])}**（${top3[0].score} 分） |
 | 最需管理维度 | **${nm(bottom3[0])}**（${bottom3[0].score} 分） |
 | 优势区域 | ${topNames} |
